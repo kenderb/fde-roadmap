@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ruta FDE — Kender Bolívar</title>
+<style>
+:root{color-scheme:light;
+--bg:#ffffff;--fg:#1a1a1a;--muted:#6b6b6b;--line:#e4e4e4;
+--accent:#1f5f8b;--accent-soft:#eaf2f8;--done:#2e7d52;--done-soft:#e8f4ed;
+--warn:#a15c00;--warn-soft:#fdf3e3;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:26px;margin:0 0 6px;letter-spacing:-.3px}
+.sub{color:var(--muted);font-size:14px;margin:0 0 22px}
+.bar-wrap{position:sticky;top:0;background:var(--bg);padding:12px 0 14px;
+border-bottom:1px solid var(--line);z-index:20;margin-bottom:24px}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;
+font-size:13px;margin-bottom:7px}
+.bar-top b{font-size:15px}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);width:0;
+transition:width .25s ease;border-radius:4px}
+.note{background:var(--warn-soft);border-left:3px solid var(--warn);
+padding:12px 15px;border-radius:0 5px 5px 0;font-size:13.5px;margin:0 0 26px}
+.note b{color:var(--warn)}
+.budget{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 28px}
+.budget div{flex:1;min-width:130px;border:1px solid var(--line);
+border-radius:7px;padding:11px 13px}
+.budget span{display:block;font-size:11.5px;text-transform:uppercase;
+letter-spacing:.5px;color:var(--muted);margin-bottom:3px}
+.budget b{font-size:17px;font-weight:600}
+.phase{margin:0 0 12px;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.phase-h{display:flex;align-items:center;gap:11px;padding:14px 17px;
+cursor:pointer;user-select:none;background:#fafafa}
+.phase-h:hover{background:#f4f4f4}
+.phase-h .arrow{color:var(--muted);font-size:11px;transition:transform .2s;width:10px}
+.phase.open .phase-h .arrow{transform:rotate(90deg)}
+.phase-h h2{font-size:15.5px;margin:0;flex:1;font-weight:600}
+.phase-h .wk{font-size:12px;color:var(--muted);white-space:nowrap}
+.phase-h .cnt{font-size:12px;color:var(--muted);background:var(--bg);
+border:1px solid var(--line);border-radius:11px;padding:2px 9px;white-space:nowrap}
+.phase.complete .phase-h{background:var(--done-soft)}
+.phase.complete .phase-h .cnt{color:var(--done);border-color:var(--done)}
+.phase-body{display:none;padding:4px 17px 16px;border-top:1px solid var(--line)}
+.phase.open .phase-body{display:block}
+.goal{font-size:13.5px;color:var(--muted);padding:13px 0 4px;font-style:italic}
+.week{border-top:1px solid var(--line);padding:15px 0 5px}
+.week:first-of-type{border-top:none}
+.week-h{display:flex;align-items:baseline;gap:9px;margin-bottom:9px}
+.week-n{background:var(--accent-soft);color:var(--accent);font-size:11.5px;
+font-weight:600;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.week-t{font-weight:600;font-size:14.5px}
+.week-hrs{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;gap:9px;align-items:flex-start;padding:5px 0;font-size:14px}
+li input{margin:3px 0 0;flex-shrink:0;width:15px;height:15px;cursor:pointer;
+accent-color:var(--accent)}
+li label{cursor:pointer;flex:1}
+li.checked label{color:var(--muted);text-decoration:line-through}
+a{color:var(--accent)}
+a:hover{text-decoration:none}
+.res{font-size:12.5px;color:var(--muted);margin-top:7px;padding-left:24px}
+.res a{margin-right:12px;white-space:nowrap}
+.chk{background:var(--done-soft);border-left:3px solid var(--done);
+padding:11px 14px;margin:13px 0 3px;border-radius:0 5px 5px 0;font-size:13.5px}
+.chk b{color:var(--done)}
+.foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted)}
+.foot h3{font-size:14px;color:var(--fg);margin:0 0 8px}
+.foot ul{margin-bottom:16px}
+.foot li{display:list-item;padding:3px 0;margin-left:17px;list-style:disc}
+.reset{background:none;border:1px solid var(--line);color:var(--muted);
+font-size:12px;padding:6px 12px;border-radius:5px;cursor:pointer;font-family:inherit}
+.reset:hover{border-color:var(--fg);color:var(--fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>De Rails Fullstack a Forward Deployed Engineer</h1>
+<p class="sub">Plan de 32 semanas · 8-10 h/semana · Kender Bolívar · arranque agosto 2026</p>
+
+<div class="bar-wrap">
+  <div class="bar-top"><span>Progreso general</span><b id="pct">0%</b></div>
+  <div class="bar"><i id="fill"></i></div>
+</div>
+
+<div class="note">
+<b>Sobre "aplicar cuando esté listo":</b> respeto la decisión, pero "listo" necesita una
+definición o se vuelve infinito. En este plan el punto de salida es el
+<b>checkpoint de la semana 20</b>: si pasas esos cuatro criterios, aplicas —
+aunque no te sientas listo. Las fases 3 y 4 se hacen <em>mientras</em> entrevistas, no antes.
+</div>
+
+<div class="budget">
+  <div><span>Técnico</span><b>4 h</b></div>
+  <div><span>Inglés</span><b>3 h</b></div>
+  <div><span>Escritura / diseño</span><b>2 h</b></div>
+  <div><span>Total semanal</span><b>9 h</b></div>
+</div>
+
+<div id="phases"></div>
+
+<div class="foot">
+  <h3>Recursos permanentes (todo el plan)</h3>
+  <ul>
+    <li><a href="https://www.developertoarchitect.com/lessons/" target="_blank">Software Architecture Monday</a> — lecciones gratis de 10 min de Mark Richards. Una por semana, sin falta.</li>
+    <li><a href="https://github.com/donnemartin/system-design-primer" target="_blank">System Design Primer</a> — el repo de referencia para casos de diseño.</li>
+    <li><a href="https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html" target="_blank">AWS Well-Architected Framework</a> — gratis, y cubre cloud y arquitectura a la vez.</li>
+    <li><a href="https://adr.github.io/" target="_blank">adr.github.io</a> — plantillas de ADR (usa la de Nygard: Contexto / Decisión / Estado / Consecuencias).</li>
+  </ul>
+
+  <h3>Los tres libros</h3>
+  <ul>
+    <li><a href="https://dataintensive.net/" target="_blank">Designing Data-Intensive Applications</a> (Kleppmann) — 2ª ed. 2026. El libro de arquitectura backend.</li>
+    <li><a href="https://www.oreilly.com/library/view/fundamentals-of-software/9781098175504/" target="_blank">Fundamentals of Software Architecture</a> (Richards &amp; Ford) — 2ª ed., muy orientado a trade-offs.</li>
+    <li><a href="https://bytebytego.com/" target="_blank">ByteByteGo</a> (Alex Xu) — solo para el formato de entrevista, no para aprender arquitectura de fondo.</li>
+  </ul>
+
+  <h3>Reglas del juego</h3>
+  <ul>
+    <li>Si una semana se cae, no la recuperas: la saltas y sigues. El plan asume que 4 de 32 semanas se pierden.</li>
+    <li>Todo lo que escribas de la semana 11 en adelante, escríbelo en inglés. Es práctica gratis.</li>
+    <li>Pon una alarma de billing en AWS a 10 USD antes de crear el primer recurso. En serio.</li>
+    <li>Un ADR por semana desde la semana 2. Cortos, de una página. La constancia importa más que la calidad.</li>
+  </ul>
+
+  <button class="reset" onclick="if(confirm('¿Borrar todo el progreso?')){localStorage.removeItem(KEY);location.reload()}">Reiniciar progreso</button>
+</div>
+
+</div>
+
+<script>
+const KEY='fde_roadmap_kender_v1';
+const DATA=[
+{p:"Fase 0 — Base honesta",w:"Semanas 1-2",goal:"Antes de aprender nada nuevo: saber dónde estás parado de verdad y arreglar lo que hoy es un riesgo en entrevista.",weeks:[
+ {n:1,t:"Diagnóstico sin autoengaño",h:"9 h",items:[
+  "Reescribir los bullets de AWS del CV: cambiar «deploy via AWS ECS» por lo que es cierto (operar y depurar sobre infraestructura existente). Hoy ese bullet es una trampa.",
+  "Hacer un examen C1 completo de práctica, cronometrado, sin ayuda. Anotar el score real.",
+  "Grabarte 5 minutos en inglés explicando la migración de Rails 5.2 → 7.2. Escucharte. Es incómodo y es el punto.",
+  "Crear cuenta AWS personal + alarma de billing en 10 USD + usuario IAM (nunca root).",
+  "Leer el overview de los 6 pilares del Well-Architected. Solo el overview."],
+  res:[["Test C1 gratis","https://engxam.com/handbook/practice-tests-c1-advanced-cae/"],["6 pilares","https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html"]]},
+ {n:2,t:"Montar el andamiaje",h:"9 h",items:[
+  "Instalar Terraform y AWS CLI. Configurar credenciales con perfil nombrado.",
+  "Terminar el Curso Profesional de Arquitectura de Software de Platzi (lo tienes en 20%). Después de este, cierras Platzi para arquitectura.",
+  "Contratar profesor de inglés en italki: 2 sesiones fijas por semana, tema técnico. Agendarlas ya, no «cuando pueda».",
+  "Escribir tu ADR #1 sobre una decisión que YA tomaste: la migración de runtime en Darwoft. Contexto, opciones, decisión, consecuencias."],
+  res:[["Instalar Terraform","https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli"],["Plantilla ADR","https://adr.github.io/adr-templates/"]]}
+]},
+
+{p:"Fase 1 — Cloud con las manos",w:"Semanas 3-10",goal:"Dejar de ser alguien que revisa CloudWatch y volverte alguien que construye la infraestructura desde cero. Esta fase es 100% práctica.",weeks:[
+ {n:3,t:"Docker en serio",h:"9 h",items:[
+  "Dockerizar una app Rails tuya desde cero con multi-stage build. Imagen final por debajo de 400 MB.",
+  "docker-compose completo: Rails + Postgres + Redis + Sidekiq, levantando con un solo comando.",
+  "Well-Architected: pilar de Operational Excellence.",
+  "Inglés: 2 sesiones + 1 lección de Architecture Monday con notas en inglés."],
+  res:[["Rails + Docker + Fargate","https://www.honeybadger.io/blog/rails-docker-aws-fargate/"]]},
+ {n:4,t:"Tu primer deploy real",h:"9 h",items:[
+  "Push de la imagen a ECR.",
+  "Desplegar en App Runner. Empieza por aquí: App Runner corre sobre ECS y Fargate por debajo, pero te ahorra la complejidad mientras aprendes.",
+  "Conectar una base RDS Postgres. Migraciones corriendo contra la nube.",
+  "Que la app responda en una URL pública. Ese momento vale más que 10 cursos."],
+  res:[["App Runner vs Fargate","https://dev.to/aws-builders/differences-pros-and-cons-between-aws-app-runner-and-ecs-fargate-5chg"]]},
+ {n:5,t:"Redes — la semana que más duele",h:"10 h",items:[
+  "VPC, subnets públicas y privadas, route tables, internet gateway, NAT gateway. Dibujarlo a mano antes de crearlo.",
+  "Security groups vs NACLs: entender la diferencia de verdad.",
+  "Rehacer el deploy con RDS en subnet privada, sin acceso público.",
+  "Well-Architected: pilar de Security.",
+  "Aviso: aquí es donde la mayoría abandona. Si una semana se alarga, que sea esta."]},
+ {n:6,t:"ECS Fargate a mano",h:"9 h",items:[
+  "Migrar de App Runner a ECS Fargate: cluster, task definition, service, Application Load Balancer.",
+  "Sidekiq como servicio ECS aparte del web. Dos task definitions, dos escalados.",
+  "ADR: ¿por qué Fargate y no App Runner, EKS o EC2? Trade-offs reales, no copiados.",
+  "Ahora ya puedes decir «desplegué en ECS» y defenderlo en entrevista."]},
+ {n:7,t:"Terraform — fundamentos",h:"9 h",items:[
+  "Tutorial oficial de HashiCorp para AWS, completo, de principio a fin.",
+  "Variables, outputs, módulos, data sources.",
+  "Empezar a traducir tu VPC de la semana 5 a código."],
+  res:[["Terraform AWS get-started","https://developer.hashicorp.com/terraform/tutorials/aws-get-started"]]},
+ {n:8,t:"Terraform — toda tu infra",h:"10 h",items:[
+  "Reescribir TODO lo de las semanas 3-6 en Terraform: VPC, ECS, ALB, RDS, ECR.",
+  "State remoto en S3 con bloqueo en DynamoDB.",
+  "Separar entornos: staging y production con los mismos módulos.",
+  "Prueba de fuego: destruir todo y recrearlo desde cero con un solo apply."]},
+ {n:9,t:"Observabilidad y CI/CD",h:"9 h",items:[
+  "CloudWatch: log groups estructurados, métricas custom, alarmas que te lleguen al correo.",
+  "GitHub Actions: build → test → push a ECR → terraform apply.",
+  "Un health check que realmente verifique DB y Redis, no solo que el proceso viva."]},
+ {n:10,t:"Cierre de fase",h:"8 h",items:[
+  "Escribir el README del proyecto como si se lo entregaras a un cliente: qué problema resuelve, diagrama de arquitectura, decisiones y costos mensuales estimados.",
+  "Diagrama de arquitectura decente (Mermaid o Excalidraw). Vas a usarlo en entrevistas.",
+  "Publicar el repo en GitHub. Este proyecto reemplaza a la certificación en tu CV.",
+  "Revisión honesta: ¿podrías reconstruir esto sin mirar tus notas?"],
+  chk:"Checkpoint fase 1: si puedes levantar una app Rails contenerizada en AWS desde cero, con Terraform, y explicar cada decisión — cerraste el gap de cloud. Sin certificación."}
+]},
+
+{p:"Fase 2 — Pensar como arquitecto",w:"Semanas 11-20",goal:"El gap más grande y el menos visible. Aquí pasas de «sé qué componentes existen» a «sé por qué elegir uno sobre otro». Desde esta fase, todo se escribe en inglés.",weeks:[
+ {n:11,t:"DDIA cap. 1-2",h:"9 h",items:[
+  "Confiabilidad, escalabilidad, mantenibilidad. Modelos de datos y lenguajes de consulta.",
+  "Relacionar cada concepto con algo que hayas vivido en Darwoft, StartX o Pibox. Escribirlo.",
+  "ADR de la semana, en inglés.",
+  "Inglés: las 2 sesiones ahora son sobre lo que leíste."]},
+ {n:12,t:"DDIA cap. 3-4",h:"9 h",items:[
+  "Storage engines: LSM-trees vs B-trees. Por fin vas a entender qué hace Postgres por debajo.",
+  "Encoding y evolución de esquemas. Directamente aplicable a tus migraciones de ActiveRecord.",
+  "Caso de System Design Primer: diseñar un acortador de URLs. 45 min, cronometrado."]},
+ {n:13,t:"DDIA cap. 5-6",h:"9 h",items:[
+  "Replicación: líder único, multi-líder, sin líder.",
+  "Particionamiento y rebalanceo.",
+  "Caso: diseñar Pastebin. En inglés, hablando en voz alta, grabándote."]},
+ {n:14,t:"DDIA cap. 7-8",h:"9 h",items:[
+  "Transacciones y niveles de aislamiento. Vas a entender qué te ha estado protegiendo todo este tiempo.",
+  "Problemas de sistemas distribuidos: relojes, fallos parciales, verdad y mentira.",
+  "Caso: diseñar un rate limiter."]},
+ {n:15,t:"DDIA cap. 9 + repaso",h:"9 h",items:[
+  "Consistencia y consenso. El capítulo más duro. Si no lo entiendes del todo, está bien.",
+  "Repasar los 9 capítulos con las fichas Anki del System Design Primer.",
+  "Caso: diseñar un feed de red social."]},
+ {n:16,t:"Fundamentals of SW Architecture I",h:"9 h",items:[
+  "Características de arquitectura y cómo se identifican desde requisitos de negocio. Este capítulo es el corazón del rol de FDE.",
+  "Acoplamiento, cohesión, granularidad de componentes.",
+  "Caso: diseñar un sistema de notificaciones."]},
+ {n:17,t:"Fundamentals of SW Architecture II",h:"9 h",items:[
+  "Estilos: monolito modular, microservicios, event-driven, microkernel. Cuándo cada uno y cuándo NO.",
+  "Reescribir un ADR viejo tuyo aplicando lo aprendido. Ver cuánto mejoró.",
+  "Caso: diseñar un sistema de tracking de flota — 2000 vehículos, tiempo real. Este es tu terreno (PostGIS, BID)."]},
+ {n:18,t:"Trade-offs y costo",h:"9 h",items:[
+  "Well-Architected: pilares de Reliability, Performance y Cost Optimization.",
+  "Estimar el costo mensual de tres arquitecturas distintas para el mismo problema. Un FDE que sabe hablar de dinero vale el doble.",
+  "Caso: diseñar un pipeline de ingesta de datos."]},
+ {n:19,t:"Arquitectura de agentes de IA",h:"9 h",items:[
+  "Tu ventaja diferencial: ya usas Claude Code y MCP a diario. Ahora entiende la arquitectura por debajo.",
+  "Leer la spec de MCP. Construir un servidor MCP pequeño que exponga una herramienta real.",
+  "ADR: cuándo un agente conviene sobre automatización tradicional. Esta pregunta te la van a hacer en Deel/Akai."],
+  res:[["Spec de MCP","https://modelcontextprotocol.io/"]]},
+ {n:20,t:"CHECKPOINT — ¿listo para aplicar?",h:"8 h",items:[
+  "Criterio 1: ¿puedes diseñar un sistema en 45 min frente a alguien, en inglés, sin congelarte?",
+  "Criterio 2: ¿tienes un proyecto en GitHub con infra como código y un README que un cliente entendería?",
+  "Criterio 3: ¿escribiste al menos 15 ADRs?",
+  "Criterio 4: ¿tu inglés hablado mejoró de forma medible respecto a la grabación de la semana 1?",
+  "Si pasas 3 de 4: reescribir el CV completo en clave FDE y empezar a aplicar. Las fases 3 y 4 corren en paralelo con las entrevistas."],
+  chk:"Este es el punto de salida al mercado. No la semana 32. Si esperas a sentirte listo, no vas a aplicar nunca — y el mercado de FDE en LATAM está abierto ahora."}
+]},
+
+{p:"Fase 3 — El músculo de cliente",w:"Semanas 21-28",goal:"La mitad de una entrevista de FDE no es código: son case studies, escenarios con stakeholders y criterio de negocio. La ronda decisiva es un caso ambiguo de 45-60 min y es la de menor tasa de aprobación de todo el proceso.",weeks:[
+ {n:21,t:"Anatomía del case study",h:"9 h",items:[
+  "Estudiar el formato: problema ambiguo de cliente → preguntas de descubrimiento → propuesta → trade-offs → plan de implementación.",
+  "Lo que más se evalúa: hacer buenas preguntas antes de proponer nada. La mayoría falla por saltar directo a la solución.",
+  "Guion de 8 preguntas de descubrimiento que sirvan para cualquier caso. Memorizarlo."],
+  res:[["Guía FDE 2026","https://www.tryexponent.com/blog/forward-deployed-engineer-interview-the-definitive-2026-guide-fde"]]},
+ {n:22,t:"Caso 1 + narrativa propia",h:"9 h",items:[
+  "Caso completo, 60 min cronometrados, en inglés, grabado.",
+  "Escribir tus 4 historias STAR: migración de runtime, optimización del dashboard, integración de API en Pibox, plataforma del BID.",
+  "Cada historia en 2 minutos. En inglés. Practicadas hasta que salgan solas."]},
+ {n:23,t:"Caso 2 — sector financiero",h:"9 h",items:[
+  "Un cliente fintech con operaciones manuales quiere automatizar conciliaciones. Diseñar la solución.",
+  "Practicar explicar la arquitectura a alguien no técnico. Sin jerga. Es más difícil de lo que parece."]},
+ {n:24,t:"Caso 3 — salud",h:"9 h",items:[
+  "Terreno propio: healthcare, datos sensibles, cumplimiento. Diseña el pipeline.",
+  "Aquí tu carrera de Seguridad Informática deja de ser una línea en el CV y pasa a ser un argumento."]},
+ {n:25,t:"Caso 4 — logística",h:"9 h",items:[
+  "Optimización de última milla. Tienes experiencia real en Pibox: úsala.",
+  "Incluir estimación de costos y plan de despliegue por fases."]},
+ {n:26,t:"Caso 5 — agentes de IA",h:"9 h",items:[
+  "Un equipo de operaciones ahogado en trabajo manual sin API. El caso exacto de Deel/Akai.",
+  "Cuándo un agente sí, cuándo no. Cómo mides que funcionó. Cómo manejas los errores."]},
+ {n:27,t:"Proyecto integrador",h:"10 h",items:[
+  "Elegir el mejor de tus 5 casos y construirlo de verdad: código, infra en Terraform, desplegado.",
+  "Alcance pequeño y terminado, no grande y a medias."]},
+ {n:28,t:"Presentarlo como consultor",h:"9 h",items:[
+  "Deck de 10 slides: problema del cliente, solución, arquitectura, trade-offs, costo, roadmap.",
+  "Presentarlo en inglés, grabado, 15 minutos.",
+  "Publicarlo en LinkedIn. Es tu mejor carta de presentación para estas vacantes."]}
+]},
+
+{p:"Fase 4 — Mercado",w:"Semanas 29-32",goal:"Si seguiste el checkpoint de la semana 20, ya llevas 8 semanas aplicando y esto es refinamiento. Si no, es tu arranque.",weeks:[
+ {n:29,t:"CV y LinkedIn en clave FDE",h:"9 h",items:[
+  "Reescribir cada experiencia con la estructura: problema del cliente → tu diagnóstico → solución que diseñaste → impacto en su negocio.",
+  "LinkedIn con el mismo enfoque. Titular: Forward Deployed Engineer, no Rails Developer.",
+  "Sección de proyectos con el integrador y el proyecto de infraestructura."]},
+ {n:30,t:"Aplicaciones en volumen",h:"9 h",items:[
+  "15-20 aplicaciones. Truelogic, Keyrus, PeakU, Yuno, DBSync y las nuevas que salgan.",
+  "Deel y las de mayor exigencia van al final de la tanda, cuando ya calentaste.",
+  "Mensaje directo al hiring manager en las que más te importen."]},
+ {n:31,t:"Mock interviews",h:"9 h",items:[
+  "3 simulacros con personas reales, en inglés. Con tu profesor de italki o en comunidades de práctica de entrevistas.",
+  "Un simulacro conmigo: te doy un caso ambiguo y te cuestiono las decisiones como lo haría un entrevistador."]},
+ {n:32,t:"Iterar sobre el feedback",h:"8 h",items:[
+  "Revisar los rechazos y buscar el patrón: ¿inglés? ¿arquitectura? ¿comunicación? ¿o simplemente número de aplicaciones?",
+  "Ajustar y seguir. El promedio de este rol es de 3 a 6 semanas por proceso, y varios procesos en paralelo.",
+  "Recordatorio: las primeras entrevistas se pierden. Es información, no fracaso."],
+  chk:"Meta realista al cerrar la semana 32: estar en proceso avanzado con 2-3 empresas. No necesariamente con oferta firmada. Los procesos de FDE toman de 3 a 6 semanas cada uno."}
+]}
+];
+
+let state=JSON.parse(localStorage.getItem(KEY)||'{}');
+const cont=document.getElementById('phases');
+
+DATA.forEach((ph,pi)=>{
+  const d=document.createElement('div');
+  d.className='phase'+(pi===0?' open':'');
+  let body='<div class="goal">'+ph.goal+'</div>';
+  ph.weeks.forEach(w=>{
+    body+='<div class="week"><div class="week-h"><span class="week-n">Sem '+w.n+
+      '</span><span class="week-t">'+w.t+'</span><span class="week-hrs">'+w.h+'</span></div><ul>';
+    w.items.forEach((it,ii)=>{
+      const id='w'+w.n+'i'+ii, on=state[id];
+      body+='<li class="'+(on?'checked':'')+'"><input type="checkbox" id="'+id+'" '+
+        (on?'checked':'')+'><label for="'+id+'">'+it+'</label></li>';
+    });
+    body+='</ul>';
+    if(w.res){body+='<div class="res">';w.res.forEach(r=>{
+      body+='<a href="'+r[1]+'" target="_blank">'+r[0]+' ↗</a>';});body+='</div>';}
+    if(w.chk)body+='<div class="chk"><b>✓</b> '+w.chk+'</div>';
+    body+='</div>';
+  });
+  d.innerHTML='<div class="phase-h"><span class="arrow">▶</span><h2>'+ph.p+
+    '</h2><span class="wk">'+ph.w+'</span><span class="cnt" data-p="'+pi+'"></span></div>'+
+    '<div class="phase-body">'+body+'</div>';
+  d.querySelector('.phase-h').onclick=()=>d.classList.toggle('open');
+  cont.appendChild(d);
+});
+
+function refresh(){
+  const all=document.querySelectorAll('.phase input');
+  const done=document.querySelectorAll('.phase input:checked').length;
+  const pctv=all.length?Math.round(done/all.length*100):0;
+  document.getElementById('pct').textContent=pctv+'%';
+  document.getElementById('fill').style.width=pctv+'%';
+  document.querySelectorAll('.phase').forEach((p,i)=>{
+    const ins=p.querySelectorAll('input'),ck=p.querySelectorAll('input:checked').length;
+    p.querySelector('.cnt').textContent=ck+'/'+ins.length;
+    p.classList.toggle('complete',ck===ins.length&&ins.length>0);
+  });
+}
+cont.addEventListener('change',e=>{
+  if(e.target.type!=='checkbox')return;
+  state[e.target.id]=e.target.checked;
+  if(!e.target.checked)delete state[e.target.id];
+  localStorage.setItem(KEY,JSON.stringify(state));
+  e.target.closest('li').classList.toggle('checked',e.target.checked);
+  refresh();
+});
+refresh();
+</script>
+</body>
+</html>
