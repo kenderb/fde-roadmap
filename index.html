@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f5f8b">
+<meta name="description" content="Plan de 34 semanas de Rails fullstack a Forward Deployed Engineer">
+<title>Ruta FDE — Kender Bolívar</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+<style>
+:root{color-scheme:light;
+--bg:#fff;--fg:#1a1a1a;--muted:#6b6b6b;--line:#e4e4e4;--soft:#fafafa;
+--accent:#1f5f8b;--accent-soft:#eaf2f8;--done:#2e7d52;--done-soft:#e8f4ed;
+--warn:#a15c00;--warn-soft:#fdf3e3;--ai:#6b3fa0;--ai-soft:#f2ecf9;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+padding-bottom:env(safe-area-inset-bottom)}
+.wrap{max-width:820px;margin:0 auto;padding:18px 14px 60px}
+h1{font-size:20px;margin:0 0 4px;letter-spacing:-.2px;line-height:1.25}
+.sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+
+/* sticky progress */
+.bar-wrap{position:sticky;top:0;background:rgba(255,255,255,.97);
+backdrop-filter:blur(8px);padding:10px 0 11px;border-bottom:1px solid var(--line);
+z-index:30;margin-bottom:18px}
+.bar-top{display:flex;justify-content:space-between;align-items:baseline;
+font-size:12.5px;margin-bottom:6px}
+.bar-top b{font-size:15px}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);width:0;
+transition:width .25s;border-radius:4px}
+
+.note{background:var(--warn-soft);border-left:3px solid var(--warn);
+padding:11px 13px;border-radius:0 6px 6px 0;font-size:13.5px;margin:0 0 16px}
+.note b{color:var(--warn)}
+.note.ai{background:var(--ai-soft);border-color:var(--ai)}
+.note.ai b{color:var(--ai)}
+
+.budget{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:0 0 20px}
+.budget div{border:1px solid var(--line);border-radius:8px;padding:9px 11px}
+.budget span{display:block;font-size:10.5px;text-transform:uppercase;
+letter-spacing:.4px;color:var(--muted);margin-bottom:2px}
+.budget b{font-size:16px;font-weight:600}
+
+/* phases */
+.phase{margin:0 0 10px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.phase-h{display:flex;align-items:center;gap:9px;padding:14px 13px;
+cursor:pointer;user-select:none;background:var(--soft);min-height:52px}
+.phase-h .arrow{color:var(--muted);font-size:10px;transition:transform .2s;
+width:9px;flex-shrink:0}
+.phase.open .phase-h .arrow{transform:rotate(90deg)}
+.phase-h .txt{flex:1;min-width:0}
+.phase-h h2{font-size:14.5px;margin:0;font-weight:600;line-height:1.3}
+.phase-h .wk{font-size:11.5px;color:var(--muted);display:block;margin-top:1px}
+.phase-h .cnt{font-size:11.5px;color:var(--muted);background:var(--bg);
+border:1px solid var(--line);border-radius:11px;padding:2px 8px;
+white-space:nowrap;flex-shrink:0}
+.phase.complete .phase-h{background:var(--done-soft)}
+.phase.complete .cnt{color:var(--done);border-color:var(--done)}
+.phase.ai .phase-h{background:var(--ai-soft)}
+.phase.ai.complete .phase-h{background:var(--done-soft)}
+.phase-body{display:none;padding:2px 13px 14px;border-top:1px solid var(--line)}
+.phase.open .phase-body{display:block}
+.goal{font-size:13px;color:var(--muted);padding:12px 0 2px;font-style:italic;
+line-height:1.5}
+
+.week{border-top:1px solid var(--line);padding:13px 0 3px}
+.week:first-of-type{border-top:none}
+.week-h{display:flex;align-items:baseline;gap:8px;margin-bottom:7px;flex-wrap:wrap}
+.week-n{background:var(--accent-soft);color:var(--accent);font-size:11px;
+font-weight:600;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.phase.ai .week-n{background:#e7dcf5;color:var(--ai)}
+.week-t{font-weight:600;font-size:14.5px;line-height:1.3}
+.week-hrs{margin-left:auto;font-size:11.5px;color:var(--muted);white-space:nowrap}
+
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;gap:11px;align-items:flex-start;padding:7px 0;font-size:14.5px;
+line-height:1.45}
+li input{margin:2px 0 0;flex-shrink:0;width:20px;height:20px;cursor:pointer;
+accent-color:var(--accent)}
+li label{cursor:pointer;flex:1;padding:1px 0}
+li.checked label{color:var(--muted);text-decoration:line-through}
+a{color:var(--accent);word-break:break-word}
+.res{font-size:12.5px;color:var(--muted);margin-top:7px;padding-left:31px;
+display:flex;flex-wrap:wrap;gap:4px 13px}
+.chk{background:var(--done-soft);border-left:3px solid var(--done);
+padding:10px 12px;margin:12px 0 3px;border-radius:0 6px 6px 0;font-size:13.5px}
+.chk b{color:var(--done)}
+
+/* sync */
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0}
+.btn{flex:1;min-width:130px;background:var(--bg);border:1px solid var(--line);
+color:var(--fg);font:600 13.5px inherit;padding:12px 10px;border-radius:8px;
+cursor:pointer;min-height:46px}
+.btn:active{background:var(--soft)}
+.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+.panel{display:none;margin-top:11px;border:1px solid var(--line);
+border-radius:8px;padding:13px}
+.panel.on{display:block}
+.panel p{margin:0 0 8px;font-size:13px;color:var(--muted);line-height:1.5}
+.panel textarea{width:100%;height:80px;font:12px/1.4 ui-monospace,SFMono-Regular,
+Menlo,monospace;border:1px solid var(--line);border-radius:6px;padding:9px;
+resize:vertical;background:var(--soft);color:var(--fg)}
+.msg{font-size:12.5px;color:var(--done);margin-top:7px;min-height:16px;font-weight:600}
+
+.foot{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);
+font-size:13.5px;color:var(--muted)}
+.foot h3{font-size:14px;color:var(--fg);margin:18px 0 7px}
+.foot h3:first-child{margin-top:0}
+.foot li{display:list-item;padding:4px 0;margin-left:18px;list-style:disc;
+line-height:1.5}
+.foot ol li{list-style:decimal}
+code{background:var(--soft);border:1px solid var(--line);border-radius:4px;
+padding:1px 5px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+
+@media(min-width:640px){
+  .wrap{padding:26px 22px 70px}
+  h1{font-size:25px}
+  .sub{font-size:14px}
+  .budget{grid-template-columns:repeat(4,1fr)}
+  .phase-h h2{font-size:15.5px}
+  .phase-h .wk{display:inline;margin-left:9px}
+  li{font-size:14px;padding:5px 0}
+  li input{width:17px;height:17px}
+  .btn{flex:0 0 auto;min-width:auto;padding:10px 18px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>De Rails Fullstack a Forward Deployed Engineer</h1>
+<p class="sub">34 semanas · 8-10 h/semana · Kender Bolívar · v2, con fase de IA</p>
+
+<div class="bar-wrap">
+  <div class="bar-top"><span>Progreso general</span><b id="pct">0%</b></div>
+  <div class="bar"><i id="fill"></i></div>
+</div>
+
+<div class="note ai">
+<b>Qué cambió en la v2:</b> el plan anterior le daba 1 semana de 32 a la IA. Pero la base
+técnica de un FDE hoy incluye LLMs en producción, agentes y evaluación. Ahora hay una
+<b>fase completa de 5 semanas</b> (19-23) dedicada a construir con IA, no solo a usarla.
+El checkpoint de salida al mercado se movió a la semana 23.
+</div>
+
+<div class="note">
+<b>Sobre "aplicar cuando esté listo":</b> el punto de salida es el <b>checkpoint de la
+semana 23</b>. Si pasas sus criterios, aplicas aunque no te sientas listo. Las fases 4 y 5
+se hacen <em>mientras</em> entrevistas, no antes.
+</div>
+
+<div class="budget">
+  <div><span>Técnico</span><b>4 h</b></div>
+  <div><span>Inglés</span><b>3 h</b></div>
+  <div><span>Escritura</span><b>2 h</b></div>
+  <div><span>Semanal</span><b>9 h</b></div>
+</div>
+
+<div id="phases"></div>
+
+<div class="tools">
+  <button class="btn pri" onclick="tog('exp')">Exportar progreso</button>
+  <button class="btn" onclick="tog('imp')">Importar progreso</button>
+  <button class="btn" onclick="wipe()">Reiniciar</button>
+</div>
+
+<div class="panel" id="exp">
+  <p>Copia este código y pégalo en el otro dispositivo usando "Importar progreso".
+  El navegador guarda tu avance automáticamente, pero cada dispositivo guarda el suyo:
+  esto es lo que los sincroniza.</p>
+  <textarea id="expTxt" readonly onclick="this.select()"></textarea>
+  <button class="btn pri" style="margin-top:9px" onclick="copyCode()">Copiar al portapapeles</button>
+  <div class="msg" id="expMsg"></div>
+</div>
+
+<div class="panel" id="imp">
+  <p>Pega aquí el código generado en el otro dispositivo. Reemplaza tu progreso actual.</p>
+  <textarea id="impTxt" placeholder="Pega el código aquí"></textarea>
+  <button class="btn pri" style="margin-top:9px" onclick="doImport()">Aplicar</button>
+  <div class="msg" id="impMsg"></div>
+</div>
+
+<div class="foot">
+  <h3>Recursos permanentes</h3>
+  <ul>
+    <li><a href="https://www.developertoarchitect.com/lessons/" target="_blank" rel="noopener">Software Architecture Monday</a> — lecciones gratis de 10 min. Una por semana, sin falta.</li>
+    <li><a href="https://github.com/donnemartin/system-design-primer" target="_blank" rel="noopener">System Design Primer</a> — el repo de referencia para casos de diseño.</li>
+    <li><a href="https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html" target="_blank" rel="noopener">AWS Well-Architected Framework</a> — gratis, cubre cloud y arquitectura a la vez.</li>
+    <li><a href="https://adr.github.io/" target="_blank" rel="noopener">adr.github.io</a> — plantillas de ADR. Usa la de Nygard.</li>
+    <li><a href="https://docs.claude.com/" target="_blank" rel="noopener">Documentación de Claude</a> y <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">spec de MCP</a> — para la fase de IA.</li>
+  </ul>
+
+  <h3>Los libros</h3>
+  <ul>
+    <li><a href="https://dataintensive.net/" target="_blank" rel="noopener">Designing Data-Intensive Applications</a> (Kleppmann, 2ª ed. 2026).</li>
+    <li><a href="https://www.oreilly.com/library/view/fundamentals-of-software/9781098175504/" target="_blank" rel="noopener">Fundamentals of Software Architecture</a> (Richards &amp; Ford, 2ª ed.).</li>
+    <li><a href="https://bytebytego.com/" target="_blank" rel="noopener">ByteByteGo</a> — solo para el formato de entrevista.</li>
+  </ul>
+
+  <h3>Publicarlo en la web (acceso desde cualquier dispositivo)</h3>
+  <p style="margin:0 0 8px">Este archivo es autocontenido: no necesita servidor ni dependencias.
+  Para tenerlo en una URL propia, gratis:</p>
+  <ol>
+    <li>Crea un repo público en tu GitHub, por ejemplo <code>fde-roadmap</code>.</li>
+    <li>Sube este archivo con el nombre <code>index.html</code> en la raíz.</li>
+    <li>Settings → Pages → Source: "Deploy from a branch" → Branch: <code>main</code> → Save.</li>
+    <li>En 1-3 minutos queda en <code>kenderb.github.io/fde-roadmap</code>. Agrégalo a la pantalla de inicio del celular.</li>
+  </ol>
+  <p style="margin:8px 0 0"><b>Nota honesta sobre el guardado:</b> el progreso se guarda solo,
+  en el navegador de cada dispositivo. No se sincroniza por sí mismo entre tu celular y tu
+  computador, porque eso requeriría un backend. Por eso están los botones de exportar e
+  importar: un copiar-pegar cuando quieras alinearlos.</p>
+
+  <h3>Reglas del juego</h3>
+  <ul>
+    <li>Si una semana se cae, no la recuperas: la saltas y sigues. El plan asume que 4 de 34 se pierden.</li>
+    <li>Todo lo que escribas desde la semana 11 en adelante, escríbelo en inglés.</li>
+    <li>Alarma de billing en AWS a 10 USD antes de crear el primer recurso.</li>
+    <li>Un ADR por semana desde la semana 2. Cortos. La constancia importa más que la calidad.</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+const KEY='fde_roadmap_kender_v2';
+const DATA=[
+{p:"Fase 0 — Base honesta",w:"Sem 1-2",goal:"Antes de aprender nada nuevo: saber dónde estás parado de verdad y arreglar lo que hoy es un riesgo en entrevista.",weeks:[
+ {n:1,t:"Diagnóstico sin autoengaño",h:"9 h",items:[
+  "CV honesto: cambiar «deploy via AWS ECS» por lo que es cierto (operar y depurar sobre infraestructura existente). HECHO.",
+  "Hacer un examen C1 completo de práctica, cronometrado, sin ayuda. Anotar el score real.",
+  "Grabarte 5 minutos en inglés explicando la migración de Rails 5.2 a 7.2. Escucharte.",
+  "Crear cuenta AWS personal, alarma de billing en 10 USD, usuario IAM (nunca root).",
+  "Leer el overview de los 6 pilares del Well-Architected."],
+  res:[["Test C1 gratis","https://engxam.com/handbook/practice-tests-c1-advanced-cae/"],["6 pilares","https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html"]]},
+ {n:2,t:"Montar el andamiaje",h:"9 h",items:[
+  "Instalar Terraform y AWS CLI. Credenciales con perfil nombrado.",
+  "Terminar el Curso Profesional de Arquitectura de Software de Platzi (está en 20%). Después de este, cierras Platzi para arquitectura.",
+  "Profesor de inglés en italki: 2 sesiones fijas por semana, tema técnico. Agendarlas ya.",
+  "ADR #1 sobre una decisión que YA tomaste: la migración de runtime en Darwoft."],
+  res:[["Instalar Terraform","https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli"],["Plantilla ADR","https://adr.github.io/adr-templates/"]]}
+]},
+
+{p:"Fase 1 — Cloud con las manos",w:"Sem 3-10",goal:"Dejar de ser alguien que revisa CloudWatch y volverte alguien que construye la infraestructura desde cero. 100% práctica.",weeks:[
+ {n:3,t:"Docker en serio",h:"9 h",items:[
+  "Dockerizar una app Rails tuya desde cero con multi-stage build. Imagen final bajo 400 MB.",
+  "docker-compose completo: Rails + Postgres + Redis + Sidekiq con un solo comando.",
+  "Well-Architected: pilar de Operational Excellence.",
+  "Inglés: 2 sesiones + 1 lección de Architecture Monday con notas en inglés."],
+  res:[["Rails + Docker + Fargate","https://www.honeybadger.io/blog/rails-docker-aws-fargate/"]]},
+ {n:4,t:"Tu primer deploy real",h:"9 h",items:[
+  "Push de la imagen a ECR.",
+  "Desplegar en App Runner: corre sobre ECS y Fargate por debajo, pero te ahorra complejidad mientras aprendes.",
+  "Conectar RDS Postgres. Migraciones corriendo contra la nube.",
+  "Que la app responda en una URL pública. Ese momento vale más que 10 cursos."],
+  res:[["App Runner vs Fargate","https://dev.to/aws-builders/differences-pros-and-cons-between-aws-app-runner-and-ecs-fargate-5chg"]]},
+ {n:5,t:"Redes: la semana que más duele",h:"10 h",items:[
+  "VPC, subnets públicas y privadas, route tables, internet gateway, NAT. Dibujarlo a mano antes de crearlo.",
+  "Security groups vs NACLs: entender la diferencia de verdad.",
+  "Rehacer el deploy con RDS en subnet privada, sin acceso público.",
+  "Well-Architected: pilar de Security.",
+  "Aviso: aquí es donde la mayoría abandona. Si una semana se alarga, que sea esta."]},
+ {n:6,t:"ECS Fargate a mano",h:"9 h",items:[
+  "Migrar de App Runner a ECS Fargate: cluster, task definition, service, ALB.",
+  "Sidekiq como servicio ECS aparte del web. Dos task definitions, dos escalados.",
+  "ADR: por qué Fargate y no App Runner, EKS o EC2. Trade-offs reales.",
+  "Ahora sí puedes decir «desplegué en ECS» y defenderlo."]},
+ {n:7,t:"Terraform: fundamentos",h:"9 h",items:[
+  "Tutorial oficial de HashiCorp para AWS, completo.",
+  "Variables, outputs, módulos, data sources.",
+  "Empezar a traducir tu VPC de la semana 5 a código."],
+  res:[["Terraform AWS get-started","https://developer.hashicorp.com/terraform/tutorials/aws-get-started"]]},
+ {n:8,t:"Terraform: toda tu infra",h:"10 h",items:[
+  "Reescribir TODO lo de las semanas 3-6 en Terraform: VPC, ECS, ALB, RDS, ECR.",
+  "State remoto en S3 con bloqueo en DynamoDB.",
+  "Separar staging y production con los mismos módulos.",
+  "Prueba de fuego: destruir todo y recrearlo con un solo apply."]},
+ {n:9,t:"Observabilidad y CI/CD",h:"9 h",items:[
+  "CloudWatch: log groups estructurados, métricas custom, alarmas que lleguen al correo.",
+  "GitHub Actions: build, test, push a ECR, terraform apply.",
+  "Health check que verifique DB y Redis, no solo que el proceso viva."]},
+ {n:10,t:"Cierre de fase",h:"8 h",items:[
+  "README del proyecto como si fuera para un cliente: problema, diagrama, decisiones, costo mensual estimado.",
+  "Diagrama de arquitectura decente (Mermaid o Excalidraw). Lo vas a usar en entrevistas.",
+  "Publicar el repo. Este proyecto reemplaza a la certificación en tu CV.",
+  "Revisión honesta: ¿podrías reconstruirlo sin mirar tus notas?"],
+  chk:"Checkpoint fase 1: si puedes levantar una app Rails contenerizada en AWS desde cero, con Terraform, y explicar cada decisión, cerraste el gap de cloud. Sin certificación."}
+]},
+
+{p:"Fase 2 — Pensar como arquitecto",w:"Sem 11-18",goal:"De «sé qué componentes existen» a «sé por qué elegir uno sobre otro». Desde aquí, todo se escribe en inglés.",weeks:[
+ {n:11,t:"DDIA cap. 1-2",h:"9 h",items:[
+  "Confiabilidad, escalabilidad, mantenibilidad. Modelos de datos y lenguajes de consulta.",
+  "Relacionar cada concepto con algo que viviste en Darwoft, StartX o Pibox. Escribirlo.",
+  "ADR de la semana, en inglés.",
+  "Inglés: las 2 sesiones ahora son sobre lo que leíste."]},
+ {n:12,t:"DDIA cap. 3-4",h:"9 h",items:[
+  "Storage engines: LSM-trees vs B-trees. Por fin vas a entender qué hace Postgres por debajo.",
+  "Encoding y evolución de esquemas. Aplicable directo a tus migraciones de ActiveRecord.",
+  "Caso del Primer: acortador de URLs. 45 min cronometrados."]},
+ {n:13,t:"DDIA cap. 5-6",h:"9 h",items:[
+  "Replicación: líder único, multi-líder, sin líder.",
+  "Particionamiento y rebalanceo.",
+  "Caso: Pastebin. En inglés, en voz alta, grabándote."]},
+ {n:14,t:"DDIA cap. 7-9",h:"10 h",items:[
+  "Transacciones y niveles de aislamiento. Vas a entender qué te ha protegido todo este tiempo.",
+  "Sistemas distribuidos: relojes, fallos parciales, consenso.",
+  "El cap. 9 es el más duro. Si no lo entiendes del todo, está bien.",
+  "Caso: rate limiter."]},
+ {n:15,t:"Fundamentals of SW Architecture I",h:"9 h",items:[
+  "Características de arquitectura y cómo se derivan de requisitos de negocio. Este capítulo es el corazón del rol de FDE.",
+  "Acoplamiento, cohesión, granularidad de componentes.",
+  "Caso: sistema de notificaciones."]},
+ {n:16,t:"Fundamentals of SW Architecture II",h:"9 h",items:[
+  "Estilos: monolito modular, microservicios, event-driven, microkernel. Cuándo cada uno y cuándo NO.",
+  "Reescribir un ADR viejo tuyo aplicando lo aprendido. Ver cuánto mejoró.",
+  "Caso: tracking de flota, 2000 vehículos, tiempo real. Tu terreno (PostGIS, BID)."]},
+ {n:17,t:"Trade-offs y costo",h:"9 h",items:[
+  "Well-Architected: pilares de Reliability, Performance y Cost Optimization.",
+  "Estimar el costo mensual de tres arquitecturas distintas para el mismo problema. Un FDE que sabe hablar de dinero vale el doble.",
+  "Caso: pipeline de ingesta de datos."]},
+ {n:18,t:"Consolidación",h:"8 h",items:[
+  "Repasar los 9 capítulos de DDIA con las fichas Anki del Primer.",
+  "Releer tus primeros ADRs. Deberían darte vergüenza: es señal de progreso.",
+  "Caso libre, sin ayuda, cronometrado."]}
+]},
+
+{p:"Fase 3 — IA en producción",w:"Sem 19-23",goal:"Aquí está el cambio grande de la v2. Usar Claude Code a diario NO es lo mismo que construir sistemas con LLMs. Esta fase es la diferencia entre ser usuario avanzado de IA y ser alguien que la pone en producción para un cliente.",ai:true,weeks:[
+ {n:19,t:"Fundamentos de app con LLM",h:"9 h",items:[
+  "Llamar la API directamente, sin Claude Code de por medio. Entender tokens, contexto, temperatura, streaming.",
+  "Structured outputs: forzar JSON válido y validarlo. La mitad de los bugs de IA en producción son de parsing.",
+  "Construir un endpoint Rails que llame un LLM y devuelva datos estructurados a la app.",
+  "Medir costo y latencia por request. Sin esto no hay conversación de negocio posible."],
+  res:[["Docs de Claude","https://docs.claude.com/"]]},
+ {n:20,t:"RAG sobre Postgres",h:"10 h",items:[
+  "Embeddings, chunking, búsqueda por similitud. Entender qué es un vector y por qué funciona.",
+  "pgvector: extensión de Postgres para vectores. Tu ventaja es que ya sabes Postgres muy bien: no necesitas una base vectorial aparte.",
+  "Construir un RAG real sobre un corpus tuyo (documentación, ADRs, lo que sea).",
+  "Aprender por qué falla el RAG: casi siempre es calidad de recuperación, no el modelo. Ese diagnóstico es lo que te van a pagar."],
+  res:[["pgvector","https://github.com/pgvector/pgvector"],["Guía pgvector RAG","https://encore.dev/blog/you-probably-dont-need-a-vector-database"]]},
+ {n:21,t:"Agentes y tool use",h:"10 h",items:[
+  "El loop de un agente: planear, llamar herramienta, observar, repetir. Implementarlo tú, sin framework.",
+  "Construir un servidor MCP que exponga herramientas reales sobre una app tuya.",
+  "Modos de falla: loops infinitos, argumentos alucinados, fallos parciales a mitad de una cadena. Manejarlos explícitamente.",
+  "ADR: cuándo un agente es peor que un script. Esta pregunta separa a quien entiende de quien repite."],
+  res:[["Spec de MCP","https://modelcontextprotocol.io/"]]},
+ {n:22,t:"Evals: el diferenciador",h:"10 h",items:[
+  "La mayoría de la gente se salta esto, y por eso el 95% de los proyectos de IA empresarial no muestran impacto medible en resultados.",
+  "Armar un set de evaluación: casos de entrada con salida esperada.",
+  "LLM-as-judge y sus límites. Cuándo necesitas evaluación humana.",
+  "Tests de regresión sobre prompts: cambiar un prompt sin romper lo que funcionaba.",
+  "Medir las tres dimensiones juntas: precisión, costo, latencia."]},
+ {n:23,t:"Proyecto de IA + CHECKPOINT",h:"10 h",items:[
+  "Integrar lo de las 4 semanas en un proyecto: un agente que resuelva un problema operativo real, con evals y desplegado en tu infra de la fase 1.",
+  "Criterio 1: ¿puedes diseñar un sistema en 45 min frente a alguien, en inglés, sin congelarte?",
+  "Criterio 2: ¿tienes dos proyectos en GitHub (infra + IA) con READMEs que un cliente entendería?",
+  "Criterio 3: ¿escribiste al menos 18 ADRs?",
+  "Criterio 4: ¿tu inglés hablado mejoró de forma medible respecto a la grabación de la semana 1?",
+  "Si pasas 3 de 4: reescribe el CV en clave FDE y empieza a aplicar."],
+  chk:"Este es el punto de salida al mercado, no la semana 34. Las fases 4 y 5 corren en paralelo con las entrevistas."}
+]},
+
+{p:"Fase 4 — El músculo de cliente",w:"Sem 24-30",goal:"La mitad de una entrevista de FDE no es código: son case studies, escenarios con stakeholders y criterio de negocio. La ronda decisiva es un caso ambiguo de 45-60 min y es la de menor tasa de aprobación del proceso.",weeks:[
+ {n:24,t:"Anatomía del case study",h:"9 h",items:[
+  "El formato: problema ambiguo → preguntas de descubrimiento → propuesta → trade-offs → plan.",
+  "Lo que más se evalúa: hacer buenas preguntas ANTES de proponer. La mayoría falla por saltar directo a la solución.",
+  "Guion de 8 preguntas de descubrimiento que sirvan para cualquier caso. Memorizarlo."],
+  res:[["Guía FDE 2026","https://www.tryexponent.com/blog/forward-deployed-engineer-interview-the-definitive-2026-guide-fde"]]},
+ {n:25,t:"Caso 1 + tu narrativa",h:"9 h",items:[
+  "Caso completo, 60 min cronometrados, en inglés, grabado.",
+  "Tus 4 historias STAR: migración de runtime, optimización del dashboard, integración de Pibox, plataforma del BID.",
+  "Cada historia en 2 minutos, en inglés, practicada hasta que salga sola."]},
+ {n:26,t:"Caso 2: fintech",h:"9 h",items:[
+  "Cliente con conciliaciones manuales quiere automatizar. Diseñar la solución.",
+  "Practicar explicar la arquitectura a alguien no técnico. Sin jerga. Más difícil de lo que parece."]},
+ {n:27,t:"Caso 3: salud",h:"9 h",items:[
+  "Terreno propio: healthcare, datos sensibles, cumplimiento.",
+  "Aquí tu carrera de Seguridad Informática deja de ser una línea del CV y pasa a ser argumento."]},
+ {n:28,t:"Caso 4: logística",h:"9 h",items:[
+  "Optimización de última milla. Tienes experiencia real de Pibox: úsala.",
+  "Incluir estimación de costos y despliegue por fases."]},
+ {n:29,t:"Caso 5: agentes de IA",h:"9 h",items:[
+  "Equipo de operaciones ahogado en trabajo manual sin API. El caso exacto de Deel/Akai y de GAP.",
+  "Ahora lo respondes con la fase 3 encima: cuándo sí, cuándo no, cómo mides que funcionó, qué haces cuando el modelo se equivoca."]},
+ {n:30,t:"Presentarlo como consultor",h:"9 h",items:[
+  "Deck de 10 slides sobre tu mejor caso: problema, solución, arquitectura, trade-offs, costo, roadmap.",
+  "Presentarlo en inglés, grabado, 15 minutos.",
+  "Publicarlo en LinkedIn. Es tu mejor carta de presentación."]}
+]},
+
+{p:"Fase 5 — Mercado",w:"Sem 31-34",goal:"Si seguiste el checkpoint de la semana 23, llevas 8 semanas aplicando y esto es refinamiento.",weeks:[
+ {n:31,t:"CV y LinkedIn en clave FDE",h:"9 h",items:[
+  "Cada experiencia con la estructura: problema del cliente → tu diagnóstico → solución que diseñaste → impacto en su negocio.",
+  "Titular de LinkedIn: Forward Deployed Engineer, no Rails Developer.",
+  "Sección de proyectos con el de infraestructura y el de IA."]},
+ {n:32,t:"Aplicaciones en volumen",h:"9 h",items:[
+  "15-20 aplicaciones. Truelogic, Keyrus, PeakU, Yuno, DBSync, GAP y las nuevas.",
+  "Deel y las de mayor exigencia al final de la tanda, cuando ya calentaste.",
+  "Mensaje directo al hiring manager en las que más te importen."]},
+ {n:33,t:"Mock interviews",h:"9 h",items:[
+  "3 simulacros con personas reales, en inglés.",
+  "Un simulacro conmigo: caso ambiguo y te cuestiono las decisiones como un entrevistador."]},
+ {n:34,t:"Iterar sobre el feedback",h:"8 h",items:[
+  "Revisar rechazos y buscar el patrón: ¿inglés? ¿arquitectura? ¿comunicación? ¿o solo número de aplicaciones?",
+  "Ajustar y seguir. Cada proceso toma de 3 a 6 semanas, y van varios en paralelo.",
+  "Las primeras entrevistas se pierden. Es información, no fracaso."],
+  chk:"Meta realista al cerrar: estar en proceso avanzado con 2-3 empresas. No necesariamente con oferta firmada."}
+]}
+];
+
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
+
+const cont=document.getElementById('phases');
+DATA.forEach((ph,pi)=>{
+  const d=document.createElement('div');
+  d.className='phase'+(pi===0?' open':'')+(ph.ai?' ai':'');
+  let body='<div class="goal">'+ph.goal+'</div>';
+  ph.weeks.forEach(w=>{
+    body+='<div class="week"><div class="week-h"><span class="week-n">Sem '+w.n+
+      '</span><span class="week-t">'+w.t+'</span><span class="week-hrs">'+w.h+'</span></div><ul>';
+    w.items.forEach((it,ii)=>{
+      const id='w'+w.n+'i'+ii,on=!!state[id];
+      body+='<li class="'+(on?'checked':'')+'"><input type="checkbox" id="'+id+'"'+
+        (on?' checked':'')+'><label for="'+id+'">'+it+'</label></li>';
+    });
+    body+='</ul>';
+    if(w.res){body+='<div class="res">';w.res.forEach(r=>{
+      body+='<a href="'+r[1]+'" target="_blank" rel="noopener">'+r[0]+' ↗</a>';});
+      body+='</div>';}
+    if(w.chk)body+='<div class="chk"><b>✓</b> '+w.chk+'</div>';
+    body+='</div>';
+  });
+  d.innerHTML='<div class="phase-h"><span class="arrow">▶</span><div class="txt">'+
+    '<h2>'+ph.p+'</h2><span class="wk">'+ph.w+'</span></div>'+
+    '<span class="cnt"></span></div><div class="phase-body">'+body+'</div>';
+  d.querySelector('.phase-h').addEventListener('click',()=>d.classList.toggle('open'));
+  cont.appendChild(d);
+});
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function refresh(){
+  const all=cont.querySelectorAll('input').length;
+  const done=cont.querySelectorAll('input:checked').length;
+  const p=all?Math.round(done/all*100):0;
+  document.getElementById('pct').textContent=p+'%';
+  document.getElementById('fill').style.width=p+'%';
+  cont.querySelectorAll('.phase').forEach(ph=>{
+    const n=ph.querySelectorAll('input').length,c=ph.querySelectorAll('input:checked').length;
+    ph.querySelector('.cnt').textContent=c+'/'+n;
+    ph.classList.toggle('complete',n>0&&c===n);
+  });
+}
+cont.addEventListener('change',e=>{
+  if(e.target.type!=='checkbox')return;
+  if(e.target.checked)state[e.target.id]=1; else delete state[e.target.id];
+  save();
+  e.target.closest('li').classList.toggle('checked',e.target.checked);
+  refresh();
+});
+
+/* ---- sync entre dispositivos ---- */
+function tog(id){
+  const el=document.getElementById(id),wasOn=el.classList.contains('on');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  if(!wasOn){
+    el.classList.add('on');
+    if(id==='exp'){
+      document.getElementById('expTxt').value=makeCode();
+      document.getElementById('expMsg').textContent='';
+    } else {document.getElementById('impMsg').textContent='';}
+  }
+}
+function makeCode(){
+  const wk={};
+  Object.keys(state).forEach(id=>{
+    const m=/^w(\d+)i(\d+)$/.exec(id);
+    if(m)wk[m[1]]=(wk[m[1]]||0)|(1<<(+m[2]));
+  });
+  const parts=Object.keys(wk).map(Number).sort((a,b)=>a-b)
+    .map(w=>w+'-'+wk[w].toString(16));
+  return 'FDE2.'+parts.join('.');
+}
+function copyCode(){
+  const t=document.getElementById('expTxt');
+  t.select();t.setSelectionRange(0,99999);
+  const done=()=>{document.getElementById('expMsg').textContent='Copiado. Pégalo en el otro dispositivo.';};
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t.value).then(done,()=>{
+      try{document.execCommand('copy');done()}catch(e){
+        document.getElementById('expMsg').textContent='Copia el texto manualmente.';}});
+  } else {
+    try{document.execCommand('copy');done()}catch(e){
+      document.getElementById('expMsg').textContent='Copia el texto manualmente.';}
+  }
+}
+function doImport(){
+  const raw=document.getElementById('impTxt').value.trim();
+  const msg=document.getElementById('impMsg');
+  if(!raw){msg.style.color='#a15c00';msg.textContent='Pega un código primero.';return;}
+  if(raw.indexOf('FDE2.')!==0){msg.style.color='#a15c00';
+    msg.textContent='Ese código no es de esta versión del plan.';return;}
+  const body=raw.slice(5).trim();
+  const valid={};cont.querySelectorAll('input').forEach(i=>valid[i.id]=1);
+  const next={};let n=0,bad=0;
+  const parts=body?body.split('.'):[];
+  for(const p of parts){
+    const m=/^(\d+)-([0-9a-f]+)$/i.exec(p.trim());
+    if(!m){bad++;continue;}
+    const w=+m[1],mask=parseInt(m[2],16);
+    if(!isFinite(mask)){bad++;continue;}
+    for(let i=0;i<16;i++){
+      if(mask&(1<<i)){
+        const id='w'+w+'i'+i;
+        if(valid[id]){next[id]=1;n++}
+      }
+    }
+  }
+  if(bad||(parts.length&&!n)){
+    msg.style.color='#a15c00';
+    msg.textContent='El código está incompleto o dañado. Vuelve a generarlo y cópialo completo.';
+    return;
+  }
+  state=next;save();
+  cont.querySelectorAll('input').forEach(i=>{
+    i.checked=!!state[i.id];
+    i.closest('li').classList.toggle('checked',i.checked);
+  });
+  refresh();
+  msg.style.color='#2e7d52';
+  msg.textContent=n?('Listo: '+n+' tareas importadas.'):'Importado: progreso vacío.';
+}
+function wipe(){
+  if(!confirm('¿Borrar todo el progreso en este dispositivo?'))return;
+  state={};save();
+  cont.querySelectorAll('input').forEach(i=>{
+    i.checked=false;i.closest('li').classList.remove('checked');});
+  refresh();
+}
+refresh();
+</script>
+</body>
+</html>
