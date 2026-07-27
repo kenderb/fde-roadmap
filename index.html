@@ -132,7 +132,7 @@ padding:1px 5px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
 <div class="wrap">
 
 <h1>De Rails Fullstack a Forward Deployed Engineer</h1>
-<p class="sub">34 semanas · 8-10 h/semana · Kender Bolívar · v2, con fase de IA</p>
+<p class="sub">34 semanas · 8-10 h/semana · Kender Bolívar · v3, con Python y salida temprana</p>
 
 <div class="bar-wrap">
   <div class="bar-top"><span>Progreso general</span><b id="pct">0%</b></div>
@@ -140,16 +140,18 @@ padding:1px 5px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
 </div>
 
 <div class="note ai">
-<b>Qué cambió en la v2:</b> el plan anterior le daba 1 semana de 32 a la IA. Pero la base
-técnica de un FDE hoy incluye LLMs en producción, agentes y evaluación. Ahora hay una
-<b>fase completa de 5 semanas</b> (19-23) dedicada a construir con IA, no solo a usarla.
-El checkpoint de salida al mercado se movió a la semana 23.
+<b>Qué cambió en la v3:</b> dos cosas. <b>Python es explícito</b> ahora: la fase de IA se hace
+en Python con FastAPI, no en Rails, porque ese es el ecosistema real y es lo que te
+preguntaron en GAP. Y la <b>salida al mercado se adelantó de la semana 23 a la 11</b>:
+aplicar dejó de ser una fase final para volverse un track que corre en paralelo desde que
+cierras el gap de cloud.
 </div>
 
 <div class="note">
-<b>Sobre "aplicar cuando esté listo":</b> el punto de salida es el <b>checkpoint de la
-semana 23</b>. Si pasas sus criterios, aplicas aunque no te sientas listo. Las fases 4 y 5
-se hacen <em>mientras</em> entrevistas, no antes.
+<b>Por qué aplicar en la semana 11 y no al final:</b> cada proceso de FDE toma de 3 a 6
+semanas, y vas a perder los primeros. Si empiezas en el mes 3, el calendario del mercado
+corre en paralelo con tu aprendizaje en vez de después. Las entrevistas también te dicen
+qué te falta con más precisión que cualquier curso.
 </div>
 
 <div class="budget">
@@ -193,6 +195,18 @@ se hacen <em>mientras</em> entrevistas, no antes.
     <li><a href="https://docs.claude.com/" target="_blank" rel="noopener">Documentación de Claude</a> y <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener">spec de MCP</a> — para la fase de IA.</li>
   </ul>
 
+  <h3>Python (fase 3)</h3>
+  <ul>
+    <li><a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener">FastAPI</a> — la documentación oficial es también el mejor tutorial. Empieza por "Tutorial - User Guide".</li>
+    <li><a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">uv</a> — gestor de proyectos y dependencias. Reemplaza pip, venv y poetry.</li>
+    <li><a href="https://docs.pydantic.dev/" target="_blank" rel="noopener">Pydantic</a> — validación por tipos. Es la base de FastAPI y de los structured outputs.</li>
+    <li><a href="https://github.com/modelcontextprotocol/python-sdk" target="_blank" rel="noopener">SDK de MCP para Python</a> — para el servidor MCP de la semana 22.</li>
+  </ul>
+  <p style="margin:0"><b>Nota sobre tu Python:</b> lo tuyo viene de 2013-2020 automatizando pipelines
+  de 3D. La sintaxis base no cambió, pero el ecosistema sí: type hints, async, uv en vez de pip.
+  No partes de cero, partes de una versión vieja del lenguaje. La semana 19 es justamente para
+  cerrar esa distancia.</p>
+
   <h3>Los libros</h3>
   <ul>
     <li><a href="https://dataintensive.net/" target="_blank" rel="noopener">Designing Data-Intensive Applications</a> (Kleppmann, 2ª ed. 2026).</li>
@@ -226,7 +240,7 @@ se hacen <em>mientras</em> entrevistas, no antes.
 </div>
 
 <script>
-const KEY='fde_roadmap_kender_v2';
+const KEY='fde_roadmap_kender_v3';
 const DATA=[
 {p:"Fase 0 — Base honesta",w:"Sem 1-2",goal:"Antes de aprender nada nuevo: saber dónde estás parado de verdad y arreglar lo que hoy es un riesgo en entrevista.",weeks:[
  {n:1,t:"Diagnóstico sin autoengaño",h:"9 h",items:[
@@ -287,15 +301,16 @@ const DATA=[
   "Diagrama de arquitectura decente (Mermaid o Excalidraw). Lo vas a usar en entrevistas.",
   "Publicar el repo. Este proyecto reemplaza a la certificación en tu CV.",
   "Revisión honesta: ¿podrías reconstruirlo sin mirar tus notas?"],
-  chk:"Checkpoint fase 1: si puedes levantar una app Rails contenerizada en AWS desde cero, con Terraform, y explicar cada decisión, cerraste el gap de cloud. Sin certificación."}
+  chk:"Checkpoint fase 1: si puedes levantar una app Rails contenerizada en AWS desde cero, con Terraform, y explicar cada decisión, cerraste el gap de cloud. Sin certificación. AQUÍ SALES AL MERCADO."}
 ]},
 
-{p:"Fase 2 — Pensar como arquitecto",w:"Sem 11-18",goal:"De «sé qué componentes existen» a «sé por qué elegir uno sobre otro». Desde aquí, todo se escribe en inglés.",weeks:[
- {n:11,t:"DDIA cap. 1-2",h:"9 h",items:[
-  "Confiabilidad, escalabilidad, mantenibilidad. Modelos de datos y lenguajes de consulta.",
-  "Relacionar cada concepto con algo que viviste en Darwoft, StartX o Pibox. Escribirlo.",
-  "ADR de la semana, en inglés.",
-  "Inglés: las 2 sesiones ahora son sobre lo que leíste."]},
+{p:"Fase 2 — Arquitectura + salir al mercado",w:"Sem 11-18",goal:"Dos cosas a la vez. Por un lado pasas de «sé qué componentes existen» a «sé por qué elegir uno sobre otro». Por el otro empiezas a aplicar, porque los procesos toman semanas y las entrevistas enseñan. Desde aquí, todo se escribe en inglés.",weeks:[
+ {n:11,t:"SALIDA AL MERCADO + DDIA cap. 1-2",h:"10 h",items:[
+  "Reescribir el CV en clave FDE: problema del cliente → tu diagnóstico → solución → impacto. Ya tienes el proyecto de infraestructura para respaldarlo.",
+  "LinkedIn actualizado. Titular: Forward Deployed Engineer, no Rails Developer.",
+  "Primeras 5 aplicaciones. Empieza por las de menor filtro de inglés: Truelogic, Keyrus, PeakU, Yuno, DBSync.",
+  "DDIA cap. 1-2: confiabilidad, escalabilidad, mantenibilidad. Modelos de datos.",
+  "Desde esta semana y hasta el final: 3-5 aplicaciones semanales, siempre."]},
  {n:12,t:"DDIA cap. 3-4",h:"9 h",items:[
   "Storage engines: LSM-trees vs B-trees. Por fin vas a entender qué hace Postgres por debajo.",
   "Encoding y evolución de esquemas. Aplicable directo a tus migraciones de ActiveRecord.",
@@ -327,51 +342,55 @@ const DATA=[
   "Caso libre, sin ayuda, cronometrado."]}
 ]},
 
-{p:"Fase 3 — IA en producción",w:"Sem 19-23",goal:"Aquí está el cambio grande de la v2. Usar Claude Code a diario NO es lo mismo que construir sistemas con LLMs. Esta fase es la diferencia entre ser usuario avanzado de IA y ser alguien que la pone en producción para un cliente.",ai:true,weeks:[
- {n:19,t:"Fundamentos de app con LLM",h:"9 h",items:[
-  "Llamar la API directamente, sin Claude Code de por medio. Entender tokens, contexto, temperatura, streaming.",
-  "Structured outputs: forzar JSON válido y validarlo. La mitad de los bugs de IA en producción son de parsing.",
-  "Construir un endpoint Rails que llame un LLM y devuelva datos estructurados a la app.",
+{p:"Fase 3 — IA en producción, en Python",w:"Sem 19-24",goal:"Todo esto se hace en Python, no en Rails. No porque Rails no sirva, sino porque el ecosistema de IA es Python primero y las vacantes lo piden por nombre (GAP te preguntó por FastAPI y LangChain). Tu Python de la etapa 3D es una base real: no partes de cero, pero sí de una versión del lenguaje que cambió mucho.",ai:true,weeks:[
+ {n:19,t:"Python moderno + FastAPI",h:"10 h",items:[
+  "Ponerte al día con lo que cambió desde tu etapa de tools: type hints, async/await, dataclasses, pattern matching, f-strings.",
+  "uv como gestor de proyectos y dependencias. Reemplaza pip, venv y poetry, y es lo que usa el propio equipo de FastAPI.",
+  "Pydantic: validación de datos por tipos. Es la pieza central de todo lo que viene después.",
+  "Construir una API pequeña en FastAPI con tests en pytest. Dockerizarla.",
+  "Comparación honesta contigo mismo: escribe el mismo endpoint en Rails y en FastAPI y anota las diferencias. Ese contraste es material de entrevista."],
+  res:[["FastAPI","https://fastapi.tiangolo.com/"],["uv + FastAPI","https://docs.astral.sh/uv/guides/integration/fastapi/"],["Pydantic","https://docs.pydantic.dev/"]]},
+ {n:20,t:"Fundamentos de app con LLM",h:"9 h",items:[
+  "Llamar la API directamente desde Python, sin Claude Code de por medio. Tokens, ventana de contexto, temperatura, streaming.",
+  "Structured outputs con Pydantic: forzar JSON válido y validarlo. La mitad de los bugs de IA en producción son de parsing.",
+  "Endpoint FastAPI que llame un LLM y devuelva datos estructurados.",
   "Medir costo y latencia por request. Sin esto no hay conversación de negocio posible."],
   res:[["Docs de Claude","https://docs.claude.com/"]]},
- {n:20,t:"RAG sobre Postgres",h:"10 h",items:[
+ {n:21,t:"RAG sobre Postgres con Python",h:"10 h",items:[
   "Embeddings, chunking, búsqueda por similitud. Entender qué es un vector y por qué funciona.",
-  "pgvector: extensión de Postgres para vectores. Tu ventaja es que ya sabes Postgres muy bien: no necesitas una base vectorial aparte.",
-  "Construir un RAG real sobre un corpus tuyo (documentación, ADRs, lo que sea).",
-  "Aprender por qué falla el RAG: casi siempre es calidad de recuperación, no el modelo. Ese diagnóstico es lo que te van a pagar."],
-  res:[["pgvector","https://github.com/pgvector/pgvector"],["Guía pgvector RAG","https://encore.dev/blog/you-probably-dont-need-a-vector-database"]]},
- {n:21,t:"Agentes y tool use",h:"10 h",items:[
-  "El loop de un agente: planear, llamar herramienta, observar, repetir. Implementarlo tú, sin framework.",
-  "Construir un servidor MCP que exponga herramientas reales sobre una app tuya.",
-  "Modos de falla: loops infinitos, argumentos alucinados, fallos parciales a mitad de una cadena. Manejarlos explícitamente.",
+  "pgvector desde Python. Tu ventaja: ya sabes Postgres muy bien, así que no necesitas una base vectorial aparte ni aprender otro sistema.",
+  "RAG real sobre un corpus tuyo: tus ADRs, documentación, lo que sea.",
+  "Por qué falla el RAG: casi siempre es calidad de recuperación, no el modelo. Ese diagnóstico es lo que te van a pagar."],
+  res:[["pgvector","https://github.com/pgvector/pgvector"],["Por qué no necesitas una BD vectorial","https://encore.dev/blog/you-probably-dont-need-a-vector-database"]]},
+ {n:22,t:"Agentes y tool use",h:"10 h",items:[
+  "El loop de un agente: planear, llamar herramienta, observar, repetir. Implementarlo tú en Python, sin framework, para entenderlo.",
+  "Después sí mirar LangChain o LlamaIndex, y decidir con criterio si valen la pena o estorban.",
+  "Servidor MCP en Python que exponga herramientas reales sobre una app tuya.",
+  "Modos de falla: loops infinitos, argumentos alucinados, fallos parciales a mitad de cadena. Manejarlos explícitamente.",
   "ADR: cuándo un agente es peor que un script. Esta pregunta separa a quien entiende de quien repite."],
-  res:[["Spec de MCP","https://modelcontextprotocol.io/"]]},
- {n:22,t:"Evals: el diferenciador",h:"10 h",items:[
-  "La mayoría de la gente se salta esto, y por eso el 95% de los proyectos de IA empresarial no muestran impacto medible en resultados.",
-  "Armar un set de evaluación: casos de entrada con salida esperada.",
+  res:[["Spec de MCP","https://modelcontextprotocol.io/"],["SDK de Python para MCP","https://github.com/modelcontextprotocol/python-sdk"]]},
+ {n:23,t:"Evals: el diferenciador",h:"10 h",items:[
+  "La mayoría se salta esto, y por eso el 95% de los proyectos de IA empresarial no muestran impacto medible.",
+  "Armar un set de evaluación: entradas con salida esperada, versionado en el repo.",
   "LLM-as-judge y sus límites. Cuándo necesitas evaluación humana.",
-  "Tests de regresión sobre prompts: cambiar un prompt sin romper lo que funcionaba.",
+  "Tests de regresión sobre prompts con pytest: cambiar un prompt sin romper lo que funcionaba.",
   "Medir las tres dimensiones juntas: precisión, costo, latencia."]},
- {n:23,t:"Proyecto de IA + CHECKPOINT",h:"10 h",items:[
-  "Integrar lo de las 4 semanas en un proyecto: un agente que resuelva un problema operativo real, con evals y desplegado en tu infra de la fase 1.",
-  "Criterio 1: ¿puedes diseñar un sistema en 45 min frente a alguien, en inglés, sin congelarte?",
-  "Criterio 2: ¿tienes dos proyectos en GitHub (infra + IA) con READMEs que un cliente entendería?",
-  "Criterio 3: ¿escribiste al menos 18 ADRs?",
-  "Criterio 4: ¿tu inglés hablado mejoró de forma medible respecto a la grabación de la semana 1?",
-  "Si pasas 3 de 4: reescribe el CV en clave FDE y empieza a aplicar."],
-  chk:"Este es el punto de salida al mercado, no la semana 34. Las fases 4 y 5 corren en paralelo con las entrevistas."}
+ {n:24,t:"Proyecto integrador",h:"10 h",items:[
+  "Un microservicio de IA en FastAPI, consumido por una app Rails, desplegado en tu infraestructura de la fase 1.",
+  "Esa arquitectura no es un ejercicio: es exactamente lo que hacen las empresas reales, y es la respuesta viva a la pregunta de GAP sobre microservicios de IA en Python.",
+  "Con evals corriendo en CI. Ese detalle te va a distinguir de casi todos los candidatos.",
+  "README escrito para un cliente: qué problema resuelve, arquitectura, costo mensual, limitaciones conocidas."],
+  chk:"Al cerrar esta fase tienes dos proyectos públicos (infra + IA), Python moderno demostrable, y llevas 14 semanas aplicando. Ese es el perfil completo."}
 ]},
 
-{p:"Fase 4 — El músculo de cliente",w:"Sem 24-30",goal:"La mitad de una entrevista de FDE no es código: son case studies, escenarios con stakeholders y criterio de negocio. La ronda decisiva es un caso ambiguo de 45-60 min y es la de menor tasa de aprobación del proceso.",weeks:[
- {n:24,t:"Anatomía del case study",h:"9 h",items:[
+{p:"Fase 4 — El músculo de cliente",w:"Sem 25-30",goal:"La mitad de una entrevista de FDE no es código: son case studies, escenarios con stakeholders y criterio de negocio. La ronda decisiva es un caso ambiguo de 45-60 min y es la de menor tasa de aprobación del proceso. Para esta altura ya llevas 14 semanas entrevistando: usa lo que aprendiste ahí.",weeks:[
+ {n:25,t:"Anatomía del caso + tu narrativa",h:"10 h",items:[
   "El formato: problema ambiguo → preguntas de descubrimiento → propuesta → trade-offs → plan.",
   "Lo que más se evalúa: hacer buenas preguntas ANTES de proponer. La mayoría falla por saltar directo a la solución.",
-  "Guion de 8 preguntas de descubrimiento que sirvan para cualquier caso. Memorizarlo."],
+  "Guion de 8 preguntas de descubrimiento que sirvan para cualquier caso. Memorizarlo.",
+  "Tus 4 historias STAR: migración de runtime, optimización del dashboard, integración de Pibox, plataforma del BID. Cada una en 2 minutos, en inglés, hasta que salga sola.",
+  "Primer caso completo, 60 min cronometrados, en inglés, grabado."],
   res:[["Guía FDE 2026","https://www.tryexponent.com/blog/forward-deployed-engineer-interview-the-definitive-2026-guide-fde"]]},
- {n:25,t:"Caso 1 + tu narrativa",h:"9 h",items:[
-  "Caso completo, 60 min cronometrados, en inglés, grabado.",
-  "Tus 4 historias STAR: migración de runtime, optimización del dashboard, integración de Pibox, plataforma del BID.",
-  "Cada historia en 2 minutos, en inglés, practicada hasta que salga sola."]},
  {n:26,t:"Caso 2: fintech",h:"9 h",items:[
   "Cliente con conciliaciones manuales quiere automatizar. Diseñar la solución.",
   "Practicar explicar la arquitectura a alguien no técnico. Sin jerga. Más difícil de lo que parece."]},
@@ -390,15 +409,15 @@ const DATA=[
   "Publicarlo en LinkedIn. Es tu mejor carta de presentación."]}
 ]},
 
-{p:"Fase 5 — Mercado",w:"Sem 31-34",goal:"Si seguiste el checkpoint de la semana 23, llevas 8 semanas aplicando y esto es refinamiento.",weeks:[
- {n:31,t:"CV y LinkedIn en clave FDE",h:"9 h",items:[
-  "Cada experiencia con la estructura: problema del cliente → tu diagnóstico → solución que diseñaste → impacto en su negocio.",
-  "Titular de LinkedIn: Forward Deployed Engineer, no Rails Developer.",
-  "Sección de proyectos con el de infraestructura y el de IA."]},
- {n:32,t:"Aplicaciones en volumen",h:"9 h",items:[
-  "15-20 aplicaciones. Truelogic, Keyrus, PeakU, Yuno, DBSync, GAP y las nuevas.",
-  "Deel y las de mayor exigencia al final de la tanda, cuando ya calentaste.",
-  "Mensaje directo al hiring manager en las que más te importen."]},
+{p:"Fase 5 — Cerrar",w:"Sem 31-34",goal:"Llevas 20 semanas aplicando. Esto no es empezar la búsqueda: es afinarla con todo lo que aprendiste y apuntar a las empresas que al principio te quedaban grandes.",weeks:[
+ {n:31,t:"CV v2, con todo encima",h:"9 h",items:[
+  "Reescribir el CV otra vez. Ahora tienes dos proyectos públicos, Python moderno y 20 semanas de entrevistas encima. El de la semana 11 ya se te quedó corto.",
+  "Sección de proyectos: infraestructura con Terraform, microservicio de IA con evals.",
+  "Revisar qué preguntas te repitieron en las entrevistas y responderlas de entrada en el CV."]},
+ {n:32,t:"Apuntar alto",h:"9 h",items:[
+  "Ahora sí: Deel, GAP y las que exigen más. Ya calentaste 20 semanas.",
+  "15-20 aplicaciones a la franja de mayor exigencia.",
+  "Mensaje directo al hiring manager en las que más te importen. A esta altura tienes con qué respaldarlo."]},
  {n:33,t:"Mock interviews",h:"9 h",items:[
   "3 simulacros con personas reales, en inglés.",
   "Un simulacro conmigo: caso ambiguo y te cuestiono las decisiones como un entrevistador."]},
@@ -481,7 +500,7 @@ function makeCode(){
   });
   const parts=Object.keys(wk).map(Number).sort((a,b)=>a-b)
     .map(w=>w+'-'+wk[w].toString(16));
-  return 'FDE2.'+parts.join('.');
+  return 'FDE3.'+parts.join('.');
 }
 function copyCode(){
   const t=document.getElementById('expTxt');
@@ -500,7 +519,7 @@ function doImport(){
   const raw=document.getElementById('impTxt').value.trim();
   const msg=document.getElementById('impMsg');
   if(!raw){msg.style.color='#a15c00';msg.textContent='Pega un código primero.';return;}
-  if(raw.indexOf('FDE2.')!==0){msg.style.color='#a15c00';
+  if(raw.indexOf('FDE3.')!==0){msg.style.color='#a15c00';
     msg.textContent='Ese código no es de esta versión del plan.';return;}
   const body=raw.slice(5).trim();
   const valid={};cont.querySelectorAll('input').forEach(i=>valid[i.id]=1);
